@@ -1,35 +1,33 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import { makeCreateTask } from "../../factories/make-create-task";
-import { createTaskBodySchema } from "@/infra/types";
+import { deleteTaskParamsSchema } from "@/infra/types";
+import { makeDeleteTask } from "../../factories/make-delete-task";
 import { UnauthorizedError } from "@/domain/application/errors/unauthorized-error";
+import { ResourceNotFoundError } from "@/domain/application/errors/resource-not-found-error";
 
-export const createTask = async (
+export const deleteTask = async (
   request: FastifyRequest,
   reply: FastifyReply
 ) => {
-  const { description, directedTo, priority, status, title } =
-    createTaskBodySchema.parse(request.body);
+  const { taskId } = deleteTaskParamsSchema.parse(request.params);
 
   try {
-    const createTaskUseCase = makeCreateTask();
+    const deleteTaskUseCase = makeDeleteTask();
 
     const requesterId = request.user.sub;
 
-    const result = await createTaskUseCase.execute({
-      description,
-      directedTo,
-      priority,
-      status,
-      title,
+    const result = await deleteTaskUseCase.execute({
+      taskId,
       requesterId,
     });
 
     if (result.isRight()) {
       return reply.status(201).send({
-        message: "Task successfully created",
+        message: "Task successfully deleted",
       });
     } else if (result.value instanceof UnauthorizedError) {
       throw new UnauthorizedError();
+    } else if (result.value instanceof ResourceNotFoundError) {
+      throw new ResourceNotFoundError();
     }
   } catch (error) {
     if (error instanceof UnauthorizedError) {
@@ -37,7 +35,5 @@ export const createTask = async (
         message: error.message,
       });
     }
-
-    throw error;
   }
 };

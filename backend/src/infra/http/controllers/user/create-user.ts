@@ -1,5 +1,5 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import { makeCreateUser } from "../../factories/make-user";
+import { makeCreateUser } from "../../factories/make-create-user";
 import { createUserBodySchema } from "@/infra/types";
 import { UserAlreadyExistsError } from "@/domain/application/errors/user-already-exists-error";
 

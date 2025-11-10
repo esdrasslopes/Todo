@@ -98,8 +98,13 @@ export class MySqlTasksRepository implements TasksRepository {
     { page }: PaginationParams
   ): Promise<Task[]> {
     const [rows] = await userDb.execute<RowDataPacket[]>(
-      `CALL sp_fetch_completed_tasks_by_user(? ,?, ?, ?)`,
-      [userId, groupId, 20, (page - 1) * 20]
+      `SELECT *
+   FROM task
+   WHERE group_id = ? 
+     AND completed_by = ? 
+     AND task.status = "COMPLETED"
+   ORDER BY created_at DESC`,
+      [groupId, userId]
     );
 
     const tasks: Task[] = (rows as RowDataPacket[]).map((row) => {
@@ -144,11 +149,11 @@ export class MySqlTasksRepository implements TasksRepository {
       });
     });
 
-    return tasks;
+    return tasks.slice((page - 1) * 20, page * 20);
   }
 
   async fetchAllTasks({ page }: PaginationParams): Promise<Task[]> {
-    const [rows] = await userDb.execute<RowDataPacket[]>(`SELECT * FROM tasks`);
+    const [rows] = await adminDb.execute<RowDataPacket[]>(`SELECT * FROM task`);
 
     const tasks: Task[] = (rows as RowDataPacket[]).map((row) => {
       return Task.create({

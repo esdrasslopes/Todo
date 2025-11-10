@@ -27,3 +27,23 @@ export const createTaskBodySchema = z.object({
   priority: z.enum(["HIGH", "LOW"]),
   directedTo: z.string(),
 });
+
+export const completeTaskParamsSchema = z.object({
+  taskId: z.string(),
+});
+
+export const getTaskByIdParamsSchema = z.object({
+  taskId: z.string(),
+});
+
+export const fetchAllTasksParamsSchema = z.object({
+  page: z.coerce.number(),
+});
+
+export const deleteTaskParamsSchema = z.object({
+  taskId: z.string(),
+});
+
+export const fetchCompletedTasksByUserParamsSchema = z.object({
+  page: z.coerce.number(),
+});
