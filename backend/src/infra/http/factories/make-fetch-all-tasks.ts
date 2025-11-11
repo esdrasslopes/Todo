@@ -1,5 +1,5 @@
 import { FetchAllTasksUseCase } from "@/domain/application/use-cases/fetch-all-tasks";
-import { MySqlTasksRepository } from "@/infra/repositories/tasks-repository";
+import { MySqlTasksRepository } from "@/infra/repositories/my-sql/tasks-repository";
 
 export const makeFetchAllTasks = () => {
   const tasksRepository = new MySqlTasksRepository();

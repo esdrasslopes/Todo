@@ -2,8 +2,21 @@ import type { PaginationParams } from "@/core/repositories/pagination-params";
 import type { Optional } from "@/core/types/optional";
 import type { TasksRepository } from "@/domain/application/repositories/tasks-repository";
 import { Task, type TaskProps } from "@/domain/entities/task";
-import { userDb, adminDb } from "../database/my-sql-connection";
+import { userDb, adminDb } from "../../database/my-sql/my-sql-connection";
 import type { RowDataPacket } from "mysql2";
+
+interface TaskRow extends RowDataPacket {
+  id: string;
+  title: string;
+  description: string | null;
+  status: "PENDING" | "COMPLETED";
+  priority: "LOW" | "HIGH";
+  created_at: Date;
+  updated_at: Date;
+  completed_at: Date | null;
+  completed_by: string | null;
+  group_id: string;
+}
 
 export class MySqlTasksRepository implements TasksRepository {
   async findById(id: string): Promise<Task | null> {
@@ -70,11 +83,17 @@ export class MySqlTasksRepository implements TasksRepository {
     { page }: PaginationParams
   ): Promise<Task[]> {
     const [rows] = await userDb.execute<RowDataPacket[]>(
-      `CALL sp_fetch_completed_tasks(?, ?, ?)`,
-      [groupId, 20, (page - 1) * 20]
+      `CALL listar_task_por_grupos(?)`,
+      [groupId]
     );
 
-    const tasks: Task[] = (rows as RowDataPacket[]).map((row) => {
+    const result = rows[0];
+
+    if (!result) {
+      return [];
+    }
+
+    const tasks: Task[] = result.map((row: TaskRow) => {
       return Task.create({
         id: row.id,
         title: row.title,
@@ -89,7 +108,7 @@ export class MySqlTasksRepository implements TasksRepository {
       });
     });
 
-    return tasks;
+    return tasks.slice((page - 1) * 20, page * 20);
   }
 
   async fetchCompletedTasksByUser(
@@ -122,7 +141,7 @@ export class MySqlTasksRepository implements TasksRepository {
       });
     });
 
-    return tasks;
+    return tasks.slice((page - 1) * 20, page * 20);
   }
 
   async fetchPendingTasks(
@@ -130,11 +149,17 @@ export class MySqlTasksRepository implements TasksRepository {
     { page }: PaginationParams
   ): Promise<Task[]> {
     const [rows] = await userDb.execute<RowDataPacket[]>(
-      `CALL sp_fetch_pending_tasks(?, ?, ?)`,
-      [groupId, 20, (page - 1) * 20]
+      `CALL sp_fetch_pending_tasks(?)`,
+      [groupId]
     );
 
-    const tasks: Task[] = (rows as RowDataPacket[]).map((row) => {
+    const result = rows[0];
+
+    if (!result) {
+      return [];
+    }
+
+    const tasks: Task[] = result.map((row: TaskRow) => {
       return Task.create({
         id: row.id,
         title: row.title,
@@ -173,9 +198,58 @@ export class MySqlTasksRepository implements TasksRepository {
     return tasks.slice((page - 1) * 20, page * 20);
   }
 
+  async fetchAllTasksOfOneGroup(
+    groupId: string,
+    { page }: PaginationParams
+  ): Promise<Task[]> {
+    const [rows] = await adminDb.execute<RowDataPacket[]>(
+      `SELECT * FROM task where group_id = ?`,
+      [groupId]
+    );
+
+    const tasks: Task[] = (rows as RowDataPacket[]).map((row) => {
+      return Task.create({
+        id: row.id,
+        title: row.title,
+        description: row.description,
+        status: row.status,
+        priority: row.priority,
+        createdAt: row.created_at,
+        updatedAt: row.updated_at,
+        completedAt: row.completed_at,
+        completedBy: row.completed_by,
+        directedTo: row.group_id,
+      });
+    });
+
+    return tasks.slice((page - 1) * 20, page * 20);
+  }
+
   async fetchHighPriorityTask({ page }: PaginationParams): Promise<Task[]> {
     const [rows] = await adminDb.execute<RowDataPacket[]>(
       `SELECT * FROM view_high_priority_tasks`
+    );
+
+    const tasks: Task[] = (rows as RowDataPacket[]).map((row) => {
+      return Task.create({
+        id: row.id,
+        title: row.title,
+        description: row.description,
+        status: row.status,
+        priority: row.priority,
+        createdAt: row.created_at,
+        updatedAt: row.updated_at,
+        completedAt: row.completed_at,
+        completedBy: row.completed_by,
+        directedTo: row.group_id,
+      });
+    });
+    return tasks.slice((page - 1) * 20, page * 20);
+  }
+
+  async fetchLowPriorityTask({ page }: PaginationParams): Promise<Task[]> {
+    const [rows] = await adminDb.execute<RowDataPacket[]>(
+      `SELECT * FROM view_low_priority_tasks`
     );
 
     const tasks: Task[] = (rows as RowDataPacket[]).map((row) => {

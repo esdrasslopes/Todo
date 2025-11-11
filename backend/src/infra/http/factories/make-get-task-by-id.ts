@@ -1,5 +1,5 @@
 import { GetTaskByIdUseCase } from "@/domain/application/use-cases/get-task-by-id";
-import { MySqlTasksRepository } from "@/infra/repositories/tasks-repository";
+import { MySqlTasksRepository } from "@/infra/repositories/my-sql/tasks-repository";
 
 export const makeGetTaskByIdTask = () => {
   const tasksRepository = new MySqlTasksRepository();

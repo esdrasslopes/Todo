@@ -6,6 +6,7 @@ export const envSchema = z.object({
   DATABASE_ADMIN_URL: z.string(),
   DATABASE_USER_URL: z.string(),
   JWT_SECRET: z.string(),
+  MONGO_URL: z.string(),
 });
 
 const _env = envSchema.safeParse(process.env);

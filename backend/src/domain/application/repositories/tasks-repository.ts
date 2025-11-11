@@ -19,5 +19,10 @@ export interface TasksRepository {
     params: PaginationParams
   ): Promise<Task[]>;
   fetchAllTasks({ page }: PaginationParams): Promise<Task[]>;
+  fetchAllTasksOfOneGroup(
+    groupId: string,
+    { page }: PaginationParams
+  ): Promise<Task[]>;
   fetchHighPriorityTask(params: PaginationParams): Promise<Task[]>;
+  fetchLowPriorityTask(params: PaginationParams): Promise<Task[]>;
 }

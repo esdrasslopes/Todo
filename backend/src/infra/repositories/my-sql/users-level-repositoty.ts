@@ -1,6 +1,6 @@
 import type { UsersLevelRepository } from "@/domain/application/repositories/users-level-repository";
 import { UsersLevel } from "@/domain/entities/users-level";
-import { adminDb, userDb } from "../database/my-sql-connection";
+import { adminDb, userDb } from "../../database/my-sql/my-sql-connection";
 import type { RowDataPacket } from "mysql2";
 
 export class MySqlUsersLevelRepository implements UsersLevelRepository {

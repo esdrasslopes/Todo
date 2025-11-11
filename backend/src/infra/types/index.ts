@@ -40,10 +40,41 @@ export const fetchAllTasksParamsSchema = z.object({
   page: z.coerce.number(),
 });
 
+export const fetchAllTasksOfOneGroupParamsSchema = z.object({
+  page: z.coerce.number(),
+});
+
 export const deleteTaskParamsSchema = z.object({
   taskId: z.string(),
 });
 
 export const fetchCompletedTasksByUserParamsSchema = z.object({
   page: z.coerce.number(),
+});
+
+export const fetchCompletedTasksParamsSchema = z.object({
+  page: z.coerce.number(),
+});
+
+export const fetchPendingTasksParamsSchema = z.object({
+  page: z.coerce.number(),
+});
+
+export const fetchHighTasksParamsSchema = z.object({
+  page: z.coerce.number(),
+});
+
+export const fetchLowTasksParamsSchema = z.object({
+  page: z.coerce.number(),
+});
+
+export const editTaskBodySchema = z.object({
+  title: z.string(),
+  description: z.string(),
+  status: z.enum(["PENDING", "COMPLETED"]),
+  priority: z.enum(["HIGH", "LOW"]),
+});
+
+export const editTaskParamsSchema = z.object({
+  taskId: z.string(),
 });

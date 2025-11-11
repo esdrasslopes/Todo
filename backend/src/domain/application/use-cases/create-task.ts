@@ -34,8 +34,6 @@ export class CreateTaskUseCase {
   }: CreateTaskUseCaseRequest): Promise<CreateTaskUseCaseResponse> {
     const permission = await this.usersRepository.hasPermission(requesterId);
 
-    console.log(permission);
-
     if (!permission) {
       return left(new UnauthorizedError());
     }

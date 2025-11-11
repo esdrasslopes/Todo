@@ -6,6 +6,12 @@ import { getTaskById } from "./get-task-by-id";
 import { completeTask } from "./complete-task";
 import { deleteTask } from "./delete-task";
 import { fetchCompletedTasksByUser } from "./fetch-completed-tasks-by-user";
+import { editTask } from "./edit-task";
+import { fetchCompletedTasks } from "./fetch-completed-tasks";
+import { fetchPendingTasks } from "./fetch-pending-tasks";
+import { fetchLowPriorityTasks } from "./fetch-low-priority-tasks";
+import { fetchHighPriorityTasks } from "./fetch-high-priority-tasks";
+import { fetchAllTasksOfOneGroup } from "./fetch-all-tasks-of-one-group";
 
 export const taskRoutes = async (app: FastifyInstance) => {
   app.addHook("onRequest", verifyJwt);
@@ -15,4 +21,10 @@ export const taskRoutes = async (app: FastifyInstance) => {
   app.patch("/:taskId", completeTask);
   app.delete("/:taskId", deleteTask);
   app.get("/user", fetchCompletedTasksByUser);
+  app.put("/:taskId", editTask);
+  app.get("/completed", fetchCompletedTasks);
+  app.get("/pending", fetchPendingTasks);
+  app.get("/low", fetchLowPriorityTasks);
+  app.get("/high", fetchHighPriorityTasks);
+  app.get("/", fetchAllTasksOfOneGroup);
 };

@@ -36,3 +36,39 @@ Authorization: Bearer {{authToken}}
 ###
 GET {{baseUrl}}/task/user?page=1
 Authorization: Bearer {{authToken}} 
+
+###
+PUT {{baseUrl}}/task/TSK_20251109202117_386
+Authorization: Bearer {{authToken}} 
+Content-Type: application/json
+
+{
+  "title": "Task editada",
+  "description": "Task editada via requisição",
+  "status": "PENDING",
+  "priority": "LOW"
+}
+
+###
+GET {{baseUrl}}/user/summury
+Authorization: Bearer {{authToken}} 
+
+###
+GET {{baseUrl}}/task/completed?page=1
+Authorization: Bearer {{authToken}} 
+
+###
+GET {{baseUrl}}/task/pending?page=1
+Authorization: Bearer {{authToken}} 
+
+###
+GET {{baseUrl}}/task/low?page=1
+Authorization: Bearer {{authToken}} 
+
+###
+GET {{baseUrl}}/task/high?page=1
+Authorization: Bearer {{authToken}} 
+
+###
+GET {{baseUrl}}/task?page=1
+Authorization: Bearer {{authToken}} 

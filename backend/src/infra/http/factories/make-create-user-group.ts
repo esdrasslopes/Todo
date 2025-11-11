@@ -1,7 +1,7 @@
 import { CreateUserGroupUseCase } from "@/domain/application/use-cases/create-user-group";
-import { MySqlGroupsRepository } from "@/infra/repositories/groups-repository";
-import { MySqlUsersLevelRepository } from "@/infra/repositories/users-level-repositoty";
-import { MySqlUsersRepository } from "@/infra/repositories/users-repository";
+import { MySqlGroupsRepository } from "@/infra/repositories/my-sql/groups-repository";
+import { MySqlUsersLevelRepository } from "@/infra/repositories/my-sql/users-level-repositoty";
+import { MySqlUsersRepository } from "@/infra/repositories/my-sql/users-repository";
 
 export const makeCreateUserGroup = () => {
   const usersLevelRepository = new MySqlUsersLevelRepository();

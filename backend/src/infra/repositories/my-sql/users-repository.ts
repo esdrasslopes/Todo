@@ -1,7 +1,7 @@
 import type { Optional } from "@/core/types/optional";
 import type { UsersRepository } from "@/domain/application/repositories/users-repository";
 import { type UserProps, User } from "@/domain/entities/user";
-import { adminDb, userDb } from "../database/my-sql-connection";
+import { adminDb, userDb } from "../../database/my-sql/my-sql-connection";
 import type { RowDataPacket } from "mysql2";
 import type { UsersLevelRepository } from "@/domain/application/repositories/users-level-repository";
 import { UserSummary } from "@/domain/entities/value-objects/user-summary";

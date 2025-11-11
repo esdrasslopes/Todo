@@ -4,7 +4,7 @@ import { type UserProps, User } from "@/domain/entities/user";
 import type { RowDataPacket } from "mysql2";
 import type { UsersLevelRepository } from "@/domain/application/repositories/users-level-repository";
 import { UserSummary } from "@/domain/entities/value-objects/user-summary";
-import { adminDb, userDb } from "../my-sql-connection";
+import { adminDb, userDb } from "../my-sql/my-sql-connection";
 
 export class MySqlUsersRepository implements UsersRepository {
   constructor(private usersLevelRepository: UsersLevelRepository) {}

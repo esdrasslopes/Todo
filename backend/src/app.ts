@@ -7,6 +7,9 @@ import { hash } from "bcryptjs";
 import { ZodError } from "zod";
 import { usergroupRoutes } from "./infra/http/controllers/groups/routes";
 import { taskRoutes } from "./infra/http/controllers/tasks/routes";
+import { mongoConnection } from "./infra/database/mongo/mongo-connection";
+
+mongoConnection();
 
 export const app = fastify();
 

@@ -1,0 +1,27 @@
+import { right, type Either } from "@/core/either";
+import type { TasksRepository } from "../repositories/tasks-repository";
+import type { Task } from "@/domain/entities/task";
+
+interface FetchPendingTasksUseCaseRequest {
+  page: number;
+  groupId: string;
+}
+
+type FetchPendingTasksUseCaseResponse = Either<null, { tasks: Task[] }>;
+
+export class FetchPendingTasksUseCase {
+  constructor(private tasksRepository: TasksRepository) {}
+
+  async execute({
+    page,
+    groupId,
+  }: FetchPendingTasksUseCaseRequest): Promise<FetchPendingTasksUseCaseResponse> {
+    const tasks = await this.tasksRepository.fetchPendingTasks(groupId, {
+      page,
+    });
+
+    return right({
+      tasks,
+    });
+  }
+}

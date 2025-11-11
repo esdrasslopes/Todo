@@ -8,8 +8,6 @@ export const fetchAllTasks = async (
 ) => {
   const { page } = fetchAllTasksParamsSchema.parse(request.query);
 
-  console.log(page);
-
   const fetchAllTasksUseCase = makeFetchAllTasks();
 
   const result = await fetchAllTasksUseCase.execute({ page });

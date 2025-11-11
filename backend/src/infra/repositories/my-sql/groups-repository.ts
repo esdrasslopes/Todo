@@ -2,7 +2,7 @@ import type { PaginationParams } from "@/core/repositories/pagination-params";
 import type { Optional } from "@/core/types/optional";
 import type { GroupsRepository } from "@/domain/application/repositories/groups-repository";
 import { UserGroup, type UserGroupProps } from "@/domain/entities/user-group";
-import { adminDb, userDb } from "../database/my-sql-connection";
+import { adminDb, userDb } from "../../database/my-sql/my-sql-connection";
 import type { RowDataPacket } from "mysql2";
 
 export class MySqlGroupsRepository implements GroupsRepository {
