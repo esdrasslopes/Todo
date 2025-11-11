@@ -1,5 +1,5 @@
 export class UnauthorizedError extends Error {
   constructor() {
-    super("Only admin users or enterprises can created a task");
+    super("Only admin users can access this route.");
   }
 }

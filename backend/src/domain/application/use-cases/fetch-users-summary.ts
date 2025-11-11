@@ -20,7 +20,9 @@ export class FetchUsersSummuryUseCase {
   async execute({
     requesterId,
   }: FetchUsersSummuryUseCaseRequest): Promise<FetchUsersSummuryUseCaseResponse> {
-    const permission = this.usersRepository.hasPermission(requesterId);
+    const permission = await this.usersRepository.hasPermission(requesterId);
+
+    console.log("Permission:", permission);
 
     if (!permission) {
       return left(new UnauthorizedError());

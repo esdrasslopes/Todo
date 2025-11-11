@@ -3,6 +3,7 @@ import type { UsersRepository } from "../repositories/users-repository";
 import { UnauthorizedError } from "../errors/unauthorized-error";
 import type { TasksRepository } from "../repositories/tasks-repository";
 import { ResourceNotFoundError } from "../errors/resource-not-found-error";
+import type { CacheTasksRepository } from "../repositories/cache/cache-repository";
 
 interface DeleteTaskUseCaseRequest {
   taskId: string;
@@ -17,7 +18,8 @@ type DeleteTaskUseCaseResponse = Either<
 export class DeleteTaskUseCase {
   constructor(
     private usersRepository: UsersRepository,
-    private tasksRepository: TasksRepository
+    private tasksRepository: TasksRepository,
+    private cacheTasksRepository: CacheTasksRepository
   ) {}
 
   async execute({
@@ -37,6 +39,8 @@ export class DeleteTaskUseCase {
     }
 
     await this.tasksRepository.delete(task.id);
+
+    await this.cacheTasksRepository.delete(task.id);
 
     return right(null);
   }

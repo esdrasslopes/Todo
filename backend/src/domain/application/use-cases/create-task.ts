@@ -3,6 +3,9 @@ import type { UsersRepository } from "../repositories/users-repository";
 import { UnauthorizedError } from "../errors/unauthorized-error";
 import type { TasksRepository } from "../repositories/tasks-repository";
 import { ResourceNotFoundError } from "../errors/resource-not-found-error";
+import { Task } from "@/domain/entities/task";
+import { generateCustomId } from "@/core/utils/id-generator";
+import type { CacheTasksRepository } from "../repositories/cache/cache-repository";
 
 interface CreateTaskUseCaseRequest {
   title: string;
@@ -21,7 +24,8 @@ type CreateTaskUseCaseResponse = Either<
 export class CreateTaskUseCase {
   constructor(
     private usersRepository: UsersRepository,
-    private tasksRepository: TasksRepository
+    private tasksRepository: TasksRepository,
+    private cacheTasksRepository: CacheTasksRepository
   ) {}
 
   async execute({
@@ -38,13 +42,18 @@ export class CreateTaskUseCase {
       return left(new UnauthorizedError());
     }
 
-    await this.tasksRepository.create({
+    const task = Task.create({
       description,
       priority,
       status,
       title,
       directedTo,
+      id: generateCustomId("TSK"),
     });
+
+    await this.tasksRepository.create(task);
+
+    await this.cacheTasksRepository.create(task);
 
     return right(null);
   }

@@ -2,6 +2,7 @@ import { left, right, type Either } from "@/core/either";
 import type { TasksRepository } from "../repositories/tasks-repository";
 import { ResourceNotFoundError } from "../errors/resource-not-found-error";
 import type { UsersRepository } from "../repositories/users-repository";
+import type { CacheTasksRepository } from "../repositories/cache/cache-repository";
 
 interface CompleteTaskUseCaseRequest {
   taskId: string;
@@ -13,7 +14,8 @@ type CompleteTaskUseCaseResponse = Either<ResourceNotFoundError, null>;
 export class CompleteTaskUseCase {
   constructor(
     private tasksRepository: TasksRepository,
-    private usersRepository: UsersRepository
+    private usersRepository: UsersRepository,
+    private cacheTasksRepository: CacheTasksRepository
   ) {}
 
   async execute({
@@ -32,7 +34,9 @@ export class CompleteTaskUseCase {
       return left(new ResourceNotFoundError());
     }
 
-    await this.tasksRepository.completedTask(taskId, completedBy);
+    await this.tasksRepository.completeTask(taskId, completedBy);
+
+    await this.cacheTasksRepository.completeTask(taskId, completedBy);
 
     return right(null);
   }

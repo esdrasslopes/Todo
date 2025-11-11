@@ -12,6 +12,8 @@ export const fetchAllTasksOfOneGroup = async (
 
   const groupId = request.user.groupId;
 
+  console.log(groupId);
+
   const result = await fetchAllTasksUseCase.execute({ page, groupId });
 
   return reply.status(200).send({

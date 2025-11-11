@@ -45,23 +45,22 @@ export class MySqlTasksRepository implements TasksRepository {
     return Task.create(task);
   }
 
-  async create(
-    taskProps: Optional<TaskProps, "id" | "createdAt">
-  ): Promise<void> {
+  async create(task: Task): Promise<void> {
     await adminDb.execute(
-      `INSERT INTO task (title, description, status, priority, group_id) 
-           VALUES (?, ?, ?, ?, ?)`,
+      `INSERT INTO task (id,title, description, status, priority, group_id) 
+           VALUES (?,?, ?, ?, ?, ?)`,
       [
-        taskProps.title,
-        taskProps.description,
-        taskProps.status,
-        taskProps.priority,
-        taskProps.directedTo,
+        task.id,
+        task.title,
+        task.description,
+        task.status,
+        task.priority,
+        task.directedTo,
       ]
     );
   }
 
-  async completedTask(id: string, completedBy: string): Promise<void> {
+  async completeTask(id: string, completedBy: string): Promise<void> {
     await userDb.execute(`CALL sp_complete_task(?, ?)`, [id, completedBy]);
   }
 

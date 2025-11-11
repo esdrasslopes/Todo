@@ -4,6 +4,7 @@ import { UnauthorizedError } from "../errors/unauthorized-error";
 import type { TasksRepository } from "../repositories/tasks-repository";
 import { ResourceNotFoundError } from "../errors/resource-not-found-error";
 import type { Task } from "@/domain/entities/task";
+import type { CacheTasksRepository } from "../repositories/cache/cache-repository";
 
 interface EditTaskUseCaseRequest {
   taskId: string;
@@ -24,7 +25,8 @@ type EditTaskUseCaseResponse = Either<
 export class EditTaskUseCase {
   constructor(
     private usersRepository: UsersRepository,
-    private tasksRepository: TasksRepository
+    private tasksRepository: TasksRepository,
+    private taskCacheRepository: CacheTasksRepository
   ) {}
 
   async execute({
@@ -53,6 +55,8 @@ export class EditTaskUseCase {
     task.status = status;
 
     await this.tasksRepository.update(task);
+
+    await this.taskCacheRepository.save(task);
 
     return right({
       task,
