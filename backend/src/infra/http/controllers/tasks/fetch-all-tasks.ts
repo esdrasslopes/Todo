@@ -19,6 +19,7 @@ export const fetchAllTasks = async (
       return reply.status(200).send({
         message: "Tasks found successfully.",
         tasks: result.value?.tasks,
+        totalPages: result.value.totalPages,
       });
     } else if (result.value instanceof UnauthorizedError) {
       return reply.status(401).send({ message: result.value.message });

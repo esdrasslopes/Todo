@@ -7,7 +7,10 @@ interface FetchCompletedTasksUseCaseRequest {
   groupId: string;
 }
 
-type FetchCompletedTasksUseCaseResponse = Either<null, { tasks: Task[] }>;
+type FetchCompletedTasksUseCaseResponse = Either<
+  null,
+  { tasks: Task[]; totalPages: number }
+>;
 
 export class FetchCompletedTasksUseCase {
   constructor(private tasksRepository: TasksRepository) {}
@@ -16,12 +19,13 @@ export class FetchCompletedTasksUseCase {
     page,
     groupId,
   }: FetchCompletedTasksUseCaseRequest): Promise<FetchCompletedTasksUseCaseResponse> {
-    const tasks = await this.tasksRepository.fetchCompletedTasks(groupId, {
+    const response = await this.tasksRepository.fetchCompletedTasks(groupId, {
       page,
     });
 
     return right({
-      tasks,
+      tasks: response.tasks,
+      totalPages: response.totalPages,
     });
   }
 }

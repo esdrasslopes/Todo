@@ -7,7 +7,10 @@ interface FetchPendingTasksUseCaseRequest {
   groupId: string;
 }
 
-type FetchPendingTasksUseCaseResponse = Either<null, { tasks: Task[] }>;
+type FetchPendingTasksUseCaseResponse = Either<
+  null,
+  { tasks: Task[]; totalPages: number }
+>;
 
 export class FetchPendingTasksUseCase {
   constructor(private tasksRepository: TasksRepository) {}
@@ -16,12 +19,13 @@ export class FetchPendingTasksUseCase {
     page,
     groupId,
   }: FetchPendingTasksUseCaseRequest): Promise<FetchPendingTasksUseCaseResponse> {
-    const tasks = await this.tasksRepository.fetchPendingTasks(groupId, {
+    const response = await this.tasksRepository.fetchPendingTasks(groupId, {
       page,
     });
 
     return right({
-      tasks,
+      tasks: response.tasks,
+      totalPages: response.totalPages,
     });
   }
 }

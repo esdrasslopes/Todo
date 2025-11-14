@@ -12,12 +12,11 @@ export const fetchAllTasksOfOneGroup = async (
 
   const groupId = request.user.groupId;
 
-  console.log(groupId);
-
   const result = await fetchAllTasksUseCase.execute({ page, groupId });
 
   return reply.status(200).send({
     message: "Tasks found successfully.",
     tasks: result.value?.tasks,
+    totalPages: result.value?.totalPages,
   });
 };

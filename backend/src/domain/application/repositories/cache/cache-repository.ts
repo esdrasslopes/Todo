@@ -5,6 +5,9 @@ export interface CacheTasksRepository {
   create(task: Task): Promise<void>;
   save(task: Task): Promise<void>;
   delete(taskId: string): Promise<void>;
-  findByGroupId(groupId: string, params: PaginationParams): Promise<Task[]>;
+  findByGroupId(
+    groupId: string,
+    params: PaginationParams
+  ): Promise<{ tasks: Task[]; totalPages: number }>;
   completeTask(taskId: string, completedBy: string): Promise<void>;
 }

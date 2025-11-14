@@ -53,10 +53,10 @@ export class MongoTasksRepository implements CacheTasksRepository {
   async findByGroupId(
     groupId: string,
     { page }: PaginationParams
-  ): Promise<Task[]> {
+  ): Promise<{ tasks: Task[]; totalPages: number }> {
     const tasks = await TaskModel.find({ groupId });
 
-    return tasks
+    const tasksByGroup = tasks
       .map((task) => {
         return Task.create({
           id: task.id,
@@ -71,6 +71,11 @@ export class MongoTasksRepository implements CacheTasksRepository {
           completedBy: task.completedBy ?? null,
         });
       })
-      .slice((page - 1) * 20, page * 10);
+      .slice((page - 1) * 20, page * 20);
+
+    return {
+      tasks: tasksByGroup,
+      totalPages: Math.ceil(tasks.length / 20),
+    };
   }
 }

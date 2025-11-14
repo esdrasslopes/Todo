@@ -15,7 +15,7 @@ mongoConnection();
 export const app = fastify();
 
 app.register(cors, {
-  origin: true,
+  origin: ["http://localhost:5173"],
   credentials: true,
 });
 
@@ -26,9 +26,6 @@ app.register(fastifyJwt, {
   cookie: {
     cookieName: "refreshToken",
     signed: false,
-  },
-  sign: {
-    expiresIn: "10m",
   },
 });
 

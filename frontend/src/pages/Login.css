@@ -1,110 +1,129 @@
+/* Fundo cinza escuro */
 .login-container {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: #121212;
+  background-color: #121212; /* Mantido como você pediu */
   padding: 1rem;
 }
 
+/* Card moderno */
 .login-form {
-  background: #1e1e1e;
-  padding: 2.5rem;
-  border-radius: 8px;
+  background: #1b1b1b;
+  padding: 2.8rem 2.4rem;
+  border-radius: 14px;
   width: 100%;
   max-width: 400px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+
+  border: 1px solid #2c2c2c;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+
+  animation: fadeIn 0.6s ease;
+}
+
+/* Animação de entrada */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .login-form h2 {
   text-align: center;
-  color: #f5f5f5;
-  font-weight: 600;
+  color: #f0f0f0;
+  font-size: 1.8rem;
+  font-weight: 700;
   margin-bottom: 2rem;
+  letter-spacing: 0.5px;
 }
 
 .form-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.4rem;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
   font-weight: 500;
-  font-size: 0.9rem;
-  color: #a0a0a0;
+  font-size: 0.95rem;
+  color: #b5b5b5;
 }
 
-.form-group input,
-.form-group select {
+/* Inputs modernos */
+.form-group input {
   width: 100%;
-  padding: 0.85rem 0.75rem;
-  border: 1px solid #444;
-  border-radius: 4px;
-  background-color: #2a2a2a;
-  color: #e0e0e0;
+  padding: 0.9rem 0.8rem;
+
+  border: 1px solid #333;
+  border-radius: 8px;
+
+  background-color: #242424;
+  color: #eaeaea;
+
   font-size: 1rem;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: 0.25s ease;
 }
 
-.form-group input:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0 30px #2a2a2a inset !important;
-  -webkit-text-fill-color: #e0e0e0 !important;
-}
-
-.form-group input:focus,
-.form-group select:focus {
+.form-group input:focus {
   outline: none;
   border-color: #007aff;
-  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2);
+  box-shadow: 0 0 8px rgba(0, 122, 255, 0.28);
+  background-color: #2b2b2b;
 }
 
+/* Botão elegante */
 .submit-btn {
   width: 100%;
-  padding: 0.85rem;
+  padding: 0.95rem;
+
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
+
   background-color: #007aff;
   color: white;
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+
+  letter-spacing: 0.5px;
+  transition: 0.25s ease;
 }
 
 .submit-btn:hover {
-  background-color: #0056b3;
+  background-color: #0063d9;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 122, 255, 0.25);
 }
 
+/* Link de registro */
 .register-link {
   text-align: center;
-  margin-top: 1.5rem;
+  margin-top: 1.6rem;
   font-size: 0.9rem;
-  color: #a0a0a0;
+  color: #b0b0b0;
 }
 
 .register-link a {
-  color: #007aff;
+  color: #4a9cff;
   text-decoration: none;
-  font-weight: 500;
-  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
 }
 
 .register-link a:hover {
   text-decoration: underline;
+  color: #6aafff;
 }
 
+/* Responsivo */
 @media (max-width: 480px) {
-  .login-container {
-    padding: 0;
-    align-items: flex-start;
-  }
-
   .login-form {
-    max-width: 100%;
-    min-height: 100vh;
-    border-radius: 0;
-    box-shadow: none;
-    padding: 2.5rem 1.5rem;
+    padding: 2.2rem 1.6rem;
+    border-radius: 10px;
   }
 }

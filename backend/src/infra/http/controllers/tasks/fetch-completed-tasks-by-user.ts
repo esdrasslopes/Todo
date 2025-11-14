@@ -22,6 +22,7 @@ export const fetchCompletedTasksByUser = async (
     return reply.status(200).send({
       message: "Tasks found successfully.",
       task: result.value.tasks,
+      totalPages: result.value.totalPages,
     });
   }
 };

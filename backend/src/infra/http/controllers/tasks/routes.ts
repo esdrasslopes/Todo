@@ -16,6 +16,7 @@ import { fetchAllTasksOfOneGroup } from "./fetch-all-tasks-of-one-group";
 export const taskRoutes = async (app: FastifyInstance) => {
   app.addHook("onRequest", verifyJwt);
   app.post("/", createTask);
+  app.get("/", fetchAllTasksOfOneGroup);
   app.get("/all", fetchAllTasks);
   app.get("/:taskId", getTaskById);
   app.patch("/:taskId", completeTask);
@@ -26,5 +27,4 @@ export const taskRoutes = async (app: FastifyInstance) => {
   app.get("/pending", fetchPendingTasks);
   app.get("/low", fetchLowPriorityTasks);
   app.get("/high", fetchHighPriorityTasks);
-  app.get("/", fetchAllTasksOfOneGroup);
 };

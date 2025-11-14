@@ -11,7 +11,7 @@ interface FetchAllTasksUseCaseRequest {
 
 type FetchAllTasksUseCaseResponse = Either<
   UnauthorizedError,
-  { tasks: Task[] }
+  { tasks: Task[]; totalPages: number }
 >;
 
 export class FetchAllTasksUseCase {
@@ -30,12 +30,13 @@ export class FetchAllTasksUseCase {
       return left(new UnauthorizedError());
     }
 
-    const tasks = await this.tasksRepository.fetchAllTasks({
+    const response = await this.tasksRepository.fetchAllTasks({
       page,
     });
 
     return right({
-      tasks,
+      tasks: response.tasks,
+      totalPages: response.totalPages,
     });
   }
 }

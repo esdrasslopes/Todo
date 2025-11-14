@@ -9,4 +9,7 @@ body {
     Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-width: 100vw;
+  background-color: #1e1e1e;
+  overflow-x: hidden;
 }

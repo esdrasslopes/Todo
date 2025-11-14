@@ -11,7 +11,7 @@ interface FetchHighPriorityTasksUseCaseRequest {
 
 type FetchHighPriorityTasksUseCaseResponse = Either<
   UnauthorizedError,
-  { tasks: Task[] }
+  { tasks: Task[]; totalPages: number }
 >;
 
 export class FetchHighPriorityTasksUseCase {
@@ -30,12 +30,13 @@ export class FetchHighPriorityTasksUseCase {
       return left(new UnauthorizedError());
     }
 
-    const tasks = await this.tasksRepository.fetchHighPriorityTask({
+    const response = await this.tasksRepository.fetchHighPriorityTask({
       page,
     });
 
     return right({
-      tasks,
+      tasks: response.tasks,
+      totalPages: response.totalPages,
     });
   }
 }

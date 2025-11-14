@@ -38,9 +38,9 @@ export const authenticate = async (
       return reply
         .setCookie("refreshToken", refreshToken, {
           path: "/",
-          secure: true,
-          sameSite: true,
           httpOnly: true,
+          secure: false,
+          sameSite: "lax",
         })
         .status(200)
         .send({

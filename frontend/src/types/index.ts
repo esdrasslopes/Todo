@@ -9,3 +9,25 @@ export interface createUser {
   password: string;
   name: string;
 }
+
+export interface UsersGroups {
+  props: {
+    id: string;
+    groupName: string;
+  };
+}
+
+export interface Tasks {
+  props: {
+    id: string;
+    title: string;
+    description?: string | null;
+    status: "PENDING" | "COMPLETED";
+    priority: "LOW" | "HIGH";
+    directedTo: string;
+    createdAt: Date;
+    updatedAt?: Date | null;
+    completedAt?: Date | null;
+    completedBy?: string | null;
+  };
+}

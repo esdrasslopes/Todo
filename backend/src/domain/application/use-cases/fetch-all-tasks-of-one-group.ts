@@ -8,7 +8,10 @@ interface FetchAllTasksOfOneGroupUseCaseRequest {
   groupId: string;
 }
 
-type FetchAllTasksOfOneGroupUseCaseResponse = Either<null, { tasks: Task[] }>;
+type FetchAllTasksOfOneGroupUseCaseResponse = Either<
+  null,
+  { tasks: Task[]; totalPages: number }
+>;
 
 export class FetchAllTasksOfOneGroupUseCase {
   constructor(
@@ -20,22 +23,24 @@ export class FetchAllTasksOfOneGroupUseCase {
     page,
     groupId,
   }: FetchAllTasksOfOneGroupUseCaseRequest): Promise<FetchAllTasksOfOneGroupUseCaseResponse> {
-    let tasks = await this.cacheTasksRepository.findByGroupId(groupId, {
+    let response = await this.cacheTasksRepository.findByGroupId(groupId, {
       page,
     });
 
-    if (tasks.length > 0) {
+    if (response.tasks.length > 0) {
       return right({
-        tasks,
+        tasks: response.tasks,
+        totalPages: response.totalPages,
       });
     }
 
-    tasks = await this.tasksRepository.fetchAllTasksOfOneGroup(groupId, {
+    response = await this.tasksRepository.fetchAllTasksOfOneGroup(groupId, {
       page,
     });
 
     return right({
-      tasks,
+      tasks: response.tasks,
+      totalPages: response.totalPages,
     });
   }
 }

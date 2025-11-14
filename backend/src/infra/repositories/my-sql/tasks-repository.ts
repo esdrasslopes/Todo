@@ -80,16 +80,19 @@ export class MySqlTasksRepository implements TasksRepository {
   async fetchCompletedTasks(
     groupId: string,
     { page }: PaginationParams
-  ): Promise<Task[]> {
+  ): Promise<{ tasks: Task[]; totalPages: number }> {
     const [rows] = await userDb.execute<RowDataPacket[]>(
-      `CALL listar_task_por_grupos(?)`,
+      `CALL sp_fetch_completed_tasks(?)`,
       [groupId]
     );
 
     const result = rows[0];
 
     if (!result) {
-      return [];
+      return {
+        tasks: [],
+        totalPages: 0,
+      };
     }
 
     const tasks: Task[] = result.map((row: TaskRow) => {
@@ -107,14 +110,17 @@ export class MySqlTasksRepository implements TasksRepository {
       });
     });
 
-    return tasks.slice((page - 1) * 20, page * 20);
+    return {
+      tasks: tasks.slice((page - 1) * 20, page * 20),
+      totalPages: Math.ceil(tasks.length / 20),
+    };
   }
 
   async fetchCompletedTasksByUser(
     userId: string,
     groupId: string,
     { page }: PaginationParams
-  ): Promise<Task[]> {
+  ): Promise<{ tasks: Task[]; totalPages: number }> {
     const [rows] = await userDb.execute<RowDataPacket[]>(
       `SELECT *
    FROM task
@@ -140,13 +146,16 @@ export class MySqlTasksRepository implements TasksRepository {
       });
     });
 
-    return tasks.slice((page - 1) * 20, page * 20);
+    return {
+      tasks: tasks.slice((page - 1) * 20, page * 20),
+      totalPages: Math.ceil(tasks.length / 20),
+    };
   }
 
   async fetchPendingTasks(
     groupId: string,
     { page }: PaginationParams
-  ): Promise<Task[]> {
+  ): Promise<{ tasks: Task[]; totalPages: number }> {
     const [rows] = await userDb.execute<RowDataPacket[]>(
       `CALL sp_fetch_pending_tasks(?)`,
       [groupId]
@@ -155,7 +164,10 @@ export class MySqlTasksRepository implements TasksRepository {
     const result = rows[0];
 
     if (!result) {
-      return [];
+      return {
+        tasks: [],
+        totalPages: 0,
+      };
     }
 
     const tasks: Task[] = result.map((row: TaskRow) => {
@@ -173,10 +185,15 @@ export class MySqlTasksRepository implements TasksRepository {
       });
     });
 
-    return tasks.slice((page - 1) * 20, page * 20);
+    return {
+      tasks: tasks.slice((page - 1) * 20, page * 20),
+      totalPages: Math.ceil(tasks.length / 20),
+    };
   }
 
-  async fetchAllTasks({ page }: PaginationParams): Promise<Task[]> {
+  async fetchAllTasks({
+    page,
+  }: PaginationParams): Promise<{ tasks: Task[]; totalPages: number }> {
     const [rows] = await adminDb.execute<RowDataPacket[]>(`SELECT * FROM task`);
 
     const tasks: Task[] = (rows as RowDataPacket[]).map((row) => {
@@ -194,15 +211,18 @@ export class MySqlTasksRepository implements TasksRepository {
       });
     });
 
-    return tasks.slice((page - 1) * 20, page * 20);
+    return {
+      tasks: tasks.slice((page - 1) * 20, page * 20),
+      totalPages: Math.ceil(tasks.length / 20),
+    };
   }
 
   async fetchAllTasksOfOneGroup(
     groupId: string,
     { page }: PaginationParams
-  ): Promise<Task[]> {
+  ): Promise<{ tasks: Task[]; totalPages: number }> {
     const [rows] = await adminDb.execute<RowDataPacket[]>(
-      `SELECT * FROM task where group_id = ?`,
+      `CALL listar_task_por_grupos(?)`,
       [groupId]
     );
 
@@ -221,10 +241,15 @@ export class MySqlTasksRepository implements TasksRepository {
       });
     });
 
-    return tasks.slice((page - 1) * 20, page * 20);
+    return {
+      tasks: tasks.slice((page - 1) * 20, page * 20),
+      totalPages: Math.ceil(tasks.length / 20),
+    };
   }
 
-  async fetchHighPriorityTask({ page }: PaginationParams): Promise<Task[]> {
+  async fetchHighPriorityTask({
+    page,
+  }: PaginationParams): Promise<{ tasks: Task[]; totalPages: number }> {
     const [rows] = await adminDb.execute<RowDataPacket[]>(
       `SELECT * FROM view_high_priority_tasks`
     );
@@ -243,10 +268,16 @@ export class MySqlTasksRepository implements TasksRepository {
         directedTo: row.group_id,
       });
     });
-    return tasks.slice((page - 1) * 20, page * 20);
+
+    return {
+      tasks: tasks.slice((page - 1) * 20, page * 20),
+      totalPages: Math.ceil(tasks.length / 20),
+    };
   }
 
-  async fetchLowPriorityTask({ page }: PaginationParams): Promise<Task[]> {
+  async fetchLowPriorityTask({
+    page,
+  }: PaginationParams): Promise<{ tasks: Task[]; totalPages: number }> {
     const [rows] = await adminDb.execute<RowDataPacket[]>(
       `SELECT * FROM view_low_priority_tasks`
     );
@@ -265,6 +296,10 @@ export class MySqlTasksRepository implements TasksRepository {
         directedTo: row.group_id,
       });
     });
-    return tasks.slice((page - 1) * 20, page * 20);
+
+    return {
+      tasks: tasks.slice((page - 1) * 20, page * 20),
+      totalPages: Math.ceil(tasks.length / 20),
+    };
   }
 }

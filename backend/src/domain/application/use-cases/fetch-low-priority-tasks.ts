@@ -11,7 +11,7 @@ interface FetchLowPriorityTasksUseCaseRequest {
 
 type FetchLowPriorityTasksUseCaseResponse = Either<
   UnauthorizedError,
-  { tasks: Task[] }
+  { tasks: Task[]; totalPages: number }
 >;
 
 export class FetchLowPriorityTasksUseCase {
@@ -30,12 +30,13 @@ export class FetchLowPriorityTasksUseCase {
       return left(new UnauthorizedError());
     }
 
-    const tasks = await this.tasksRepository.fetchLowPriorityTask({
+    const response = await this.tasksRepository.fetchLowPriorityTask({
       page,
     });
 
     return right({
-      tasks,
+      tasks: response.tasks,
+      totalPages: response.totalPages,
     });
   }
 }

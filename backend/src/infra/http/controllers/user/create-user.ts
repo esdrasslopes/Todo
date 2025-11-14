@@ -25,6 +25,8 @@ export const createUser = async (
       return reply.status(201).send({
         message: "User successfully created",
       });
+    } else if (result.value instanceof UserAlreadyExistsError) {
+      throw new UserAlreadyExistsError(result.value.message);
     }
   } catch (error) {
     if (error instanceof UserAlreadyExistsError) {

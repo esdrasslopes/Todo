@@ -10,18 +10,27 @@ export interface TasksRepository {
   fetchCompletedTasks(
     groupId: string,
     params: PaginationParams
-  ): Promise<Task[]>;
-  fetchPendingTasks(groupId: string, params: PaginationParams): Promise<Task[]>;
+  ): Promise<{ tasks: Task[]; totalPages: number }>;
+  fetchPendingTasks(
+    groupId: string,
+    params: PaginationParams
+  ): Promise<{ tasks: Task[]; totalPages: number }>;
   fetchCompletedTasksByUser(
     userId: string,
     groupId: string,
     params: PaginationParams
-  ): Promise<Task[]>;
-  fetchAllTasks({ page }: PaginationParams): Promise<Task[]>;
+  ): Promise<{ tasks: Task[]; totalPages: number }>;
+  fetchAllTasks({
+    page,
+  }: PaginationParams): Promise<{ tasks: Task[]; totalPages: number }>;
   fetchAllTasksOfOneGroup(
     groupId: string,
     { page }: PaginationParams
-  ): Promise<Task[]>;
-  fetchHighPriorityTask(params: PaginationParams): Promise<Task[]>;
-  fetchLowPriorityTask(params: PaginationParams): Promise<Task[]>;
+  ): Promise<{ tasks: Task[]; totalPages: number }>;
+  fetchHighPriorityTask(
+    params: PaginationParams
+  ): Promise<{ tasks: Task[]; totalPages: number }>;
+  fetchLowPriorityTask(
+    params: PaginationParams
+  ): Promise<{ tasks: Task[]; totalPages: number }>;
 }
