@@ -8,16 +8,16 @@ import { ZodError } from "zod";
 import { usergroupRoutes } from "./infra/http/controllers/groups/routes";
 import { taskRoutes } from "./infra/http/controllers/tasks/routes";
 import { mongoConnection } from "./infra/database/mongo/mongo-connection";
+import cors from "@fastify/cors";
 
 mongoConnection();
 
 export const app = fastify();
 
-async function hasher() {
-  const hashed = await hash("123456", 8);
-
-  console.log(hashed);
-}
+app.register(cors, {
+  origin: true,
+  credentials: true,
+});
 
 app.register(cookies);
 
@@ -43,8 +43,6 @@ app.register(usergroupRoutes, {
 app.register(taskRoutes, {
   prefix: "/task",
 });
-
-hasher();
 
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {

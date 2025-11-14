@@ -85,3 +85,6 @@ Content-Type: application/json
   "priority": "HIGH",
   "directedTo": "GRP_20251109193044_502"
 }
+
+###
+POST {{baseUrl}}/user/refresh

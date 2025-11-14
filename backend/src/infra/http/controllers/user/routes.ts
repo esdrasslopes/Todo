@@ -3,9 +3,11 @@ import { createUser } from "./create-user";
 import { authenticate } from "./authenticate-user";
 import { fetchUsersSummary } from "./fetch-users-summary";
 import { verifyJwt } from "../../middlewares/verify-jwt";
+import { refresh } from "./refresh";
 
 export const userRoutes = async (app: FastifyInstance) => {
   app.post("/", createUser);
   app.post("/auth", authenticate);
   app.get("/summury", { onRequest: [verifyJwt] }, fetchUsersSummary);
+  app.patch("/token/refresh", refresh);
 };
