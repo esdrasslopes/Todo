@@ -17,7 +17,7 @@ export interface UsersGroups {
   };
 }
 
-export interface Tasks {
+export interface Task {
   props: {
     id: string;
     title: string;

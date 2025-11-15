@@ -8,6 +8,7 @@ import Login from "./pages/Login.tsx";
 import Task from "./pages/Task.tsx";
 import { ProtectedRoute } from "./components/ProtectedRoute.tsx";
 import { AuthProvider } from "./contexts/AuthContext.tsx";
+import TaskDetails from "./pages/TaskDetails.tsx";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <Task />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/tasks/:id",
+        element: (
+          <ProtectedRoute>
+            <TaskDetails />
           </ProtectedRoute>
         ),
       },

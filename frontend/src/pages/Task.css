@@ -79,17 +79,20 @@
   border-radius: 8px;
   padding: 1.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-  /* A borda colorida da imagem */
   border-left: 4px solid #444;
   transition: border-color 0.3s;
 }
 
 .task-card.status-pending {
-  border-color: #007aff;
+  border-color: #f59e0b;
 }
 
 .task-card.status-completed {
   border-color: #34c759;
+}
+
+.task-card.status-user-completed {
+  border-color: #007aff;
 }
 
 .task-card-header {

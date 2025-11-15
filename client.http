@@ -8,7 +8,7 @@ POST {{baseUrl}}/user/auth
 Content-Type: application/json
 
 {
-    "email": "johndoe@gmail.com",
+    "email": "admin@gmail.com",
     "password": "123456"
 }
 
@@ -88,3 +88,7 @@ Content-Type: application/json
 
 ###
 POST {{baseUrl}}/user/refresh
+
+###
+PATCH {{baseUrl}}/task/TSK_20251114212211_563
+Authorization: Bearer {{authToken}}

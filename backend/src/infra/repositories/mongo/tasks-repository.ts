@@ -78,4 +78,92 @@ export class MongoTasksRepository implements CacheTasksRepository {
       totalPages: Math.ceil(tasks.length / 20),
     };
   }
+
+  async fetchCompletedTasks(
+    groupId: string,
+    { page }: PaginationParams
+  ): Promise<{ tasks: Task[]; totalPages: number }> {
+    const tasks = await TaskModel.find({ groupId, status: "COMPLETED" });
+
+    const tasksByGroup = tasks
+      .map((task) => {
+        return Task.create({
+          id: task.id,
+          title: task.title,
+          description: task.description,
+          priority: task.priority,
+          status: task.status,
+          directedTo: task.groupId,
+          createdAt: task.createdAt ?? new Date(),
+          updatedAt: task.updatedAt ?? null,
+          completedAt: task.completedAt ?? null,
+          completedBy: task.completedBy ?? null,
+        });
+      })
+      .slice((page - 1) * 20, page * 20);
+
+    return {
+      tasks: tasksByGroup,
+      totalPages: Math.ceil(tasks.length / 20),
+    };
+  }
+
+  async fetchPendingTasks(
+    groupId: string,
+    { page }: PaginationParams
+  ): Promise<{ tasks: Task[]; totalPages: number }> {
+    const tasks = await TaskModel.find({ groupId, status: "PENDING" });
+
+    const tasksByGroup = tasks
+      .map((task) => {
+        return Task.create({
+          id: task.id,
+          title: task.title,
+          description: task.description,
+          priority: task.priority,
+          status: task.status,
+          directedTo: task.groupId,
+          createdAt: task.createdAt ?? new Date(),
+          updatedAt: task.updatedAt ?? null,
+          completedAt: task.completedAt ?? null,
+          completedBy: task.completedBy ?? null,
+        });
+      })
+      .slice((page - 1) * 20, page * 20);
+
+    return {
+      tasks: tasksByGroup,
+      totalPages: Math.ceil(tasks.length / 20),
+    };
+  }
+
+  async fetchCompletedTasksByUser(
+    userId: string,
+    groupId: string,
+    { page }: PaginationParams
+  ): Promise<{ tasks: Task[]; totalPages: number }> {
+    const tasks = await TaskModel.find({ groupId, completedBy: userId });
+
+    const tasksByGroup = tasks
+      .map((task) => {
+        return Task.create({
+          id: task.id,
+          title: task.title,
+          description: task.description,
+          priority: task.priority,
+          status: task.status,
+          directedTo: task.groupId,
+          createdAt: task.createdAt ?? new Date(),
+          updatedAt: task.updatedAt ?? null,
+          completedAt: task.completedAt ?? null,
+          completedBy: task.completedBy ?? null,
+        });
+      })
+      .slice((page - 1) * 20, page * 20);
+
+    return {
+      tasks: tasksByGroup,
+      totalPages: Math.ceil(tasks.length / 20),
+    };
+  }
 }

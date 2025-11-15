@@ -10,4 +10,17 @@ export interface CacheTasksRepository {
     params: PaginationParams
   ): Promise<{ tasks: Task[]; totalPages: number }>;
   completeTask(taskId: string, completedBy: string): Promise<void>;
+  fetchCompletedTasks(
+    groupId: string,
+    params: PaginationParams
+  ): Promise<{ tasks: Task[]; totalPages: number }>;
+  fetchPendingTasks(
+    groupId: string,
+    params: PaginationParams
+  ): Promise<{ tasks: Task[]; totalPages: number }>;
+  fetchCompletedTasksByUser(
+    userId: string,
+    groupId: string,
+    params: PaginationParams
+  ): Promise<{ tasks: Task[]; totalPages: number }>;
 }

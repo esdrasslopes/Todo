@@ -17,8 +17,6 @@ export const fetchPendingTasks = async (
     groupId: requester.groupId,
   });
 
-  console.log(result.value?.tasks);
-
   if (result.isRight()) {
     return reply.status(200).send({
       message: "Tasks found successfully.",
