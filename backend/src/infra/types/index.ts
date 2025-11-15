@@ -60,6 +60,10 @@ export const fetchPendingTasksParamsSchema = z.object({
   page: z.coerce.number(),
 });
 
+export const fetchUsersSummurySchema = z.object({
+  page: z.coerce.number(),
+});
+
 export const fetchHighTasksParamsSchema = z.object({
   page: z.coerce.number(),
 });

@@ -189,6 +189,41 @@
   font-weight: 700;
 }
 
+.task-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.2rem;
+}
+
+.task-actions-box {
+  display: flex;
+  gap: 0.8rem;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.5rem 0.7rem;
+  border-radius: 8px;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.task-action-icon {
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+  color: #bfbfbf;
+}
+
+.task-action-icon:hover {
+  transform: scale(1.15);
+}
+
+.edit-icon:hover {
+  color: #4da3ff;
+}
+
+.delete-icon:hover {
+  color: #ff6b6b;
+}
+
 @media (max-width: 600px) {
   .tasks-page-container {
     padding: 1.5rem 0.5rem;

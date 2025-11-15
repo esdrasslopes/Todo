@@ -8,7 +8,7 @@ import "./Task.css";
 
 export type TaskStatus = "COMPLETED" | "PENDING";
 
-const Task: React.FC = () => {
+const CompletedTasks: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [tasks, setTasks] = useState<TaskType[]>([]);
   const [totalPages, setTotalPages] = useState(1);
@@ -21,7 +21,7 @@ const Task: React.FC = () => {
   const fetchTasks = useCallback(
     async (page: number) => {
       try {
-        const response = await getTasks(page, "ALLGROUP");
+        const response = await getTasks(page, "COMPLETED");
 
         if (response.status === 200) {
           setTasks(response.tasks);
@@ -41,9 +41,7 @@ const Task: React.FC = () => {
 
   const goToNextPage = () =>
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
-
   const goToPrevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
-
   const goToPage = (page: number) => setCurrentPage(page);
 
   const getStatusClass = (status: TaskStatus) => {
@@ -61,7 +59,7 @@ const Task: React.FC = () => {
 
   useEffect(() => {
     fetchTasks(currentPage);
-  }, [currentPage, fetchTasks]);
+  }, [currentPage]);
 
   if (loading) {
     return <Loading />;
@@ -71,13 +69,12 @@ const Task: React.FC = () => {
     <div className="tasks-container">
       <div className="tasks-page-container">
         <header className="tasks-header">
-          <h2>Tarefas</h2>
+          <h2>Tarefas Concluídas</h2>
         </header>
 
         <main className="tasks-list">
           {tasks.length === 0 ? (
-            // Mensagem de "filtro" removida
-            <p className="tasks-empty">Nenhuma tarefa encontrada.</p>
+            <p className="tasks-empty">Nenhuma tarefa concluída encontrada.</p>
           ) : (
             tasks.map((task) => (
               <article
@@ -136,4 +133,4 @@ const Task: React.FC = () => {
   );
 };
 
-export default Task;
+export default CompletedTasks;

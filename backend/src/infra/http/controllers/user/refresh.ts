@@ -6,12 +6,14 @@ export const refresh = async (request: FastifyRequest, reply: FastifyReply) => {
   const token = await reply.jwtSign({
     sub: request.user.sub,
     groupId: request.user.groupId,
+    levelId: request.user.levelId,
   });
 
   const refreshToken = await reply.jwtSign(
     {
       sub: request.user.sub,
       groupId: request.user.groupId,
+      levelId: request.user.levelId,
     },
     {
       expiresIn: "7d",

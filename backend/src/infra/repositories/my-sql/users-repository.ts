@@ -5,6 +5,7 @@ import { adminDb, userDb } from "../../database/my-sql/my-sql-connection";
 import type { RowDataPacket } from "mysql2";
 import type { UsersLevelRepository } from "@/domain/application/repositories/users-level-repository";
 import { UserSummary } from "@/domain/entities/value-objects/user-summary";
+import type { PaginationParams } from "@/core/repositories/pagination-params";
 
 export class MySqlUsersRepository implements UsersRepository {
   constructor(private usersLevelRepository: UsersLevelRepository) {}
@@ -77,13 +78,19 @@ export class MySqlUsersRepository implements UsersRepository {
     return userLevel?.role === "ADMIN" || false;
   }
 
-  async fetchUsersSummary(): Promise<UserSummary[]> {
+  async fetchUsersSummary({ page }: PaginationParams): Promise<{
+    summury: UserSummary[];
+    totalPages: number;
+  }> {
     const [rows] = await adminDb.execute<RowDataPacket[]>(
       `SELECT * FROM view_user_summary`
     );
 
     if (!rows || (rows as RowDataPacket[]).length === 0) {
-      return [];
+      return {
+        summury: [],
+        totalPages: 0,
+      };
     }
 
     const summary: UserSummary[] = (rows as RowDataPacket[]).map((row) => {
@@ -94,6 +101,9 @@ export class MySqlUsersRepository implements UsersRepository {
       });
     });
 
-    return summary;
+    return {
+      summury: summary.slice((page - 1) * 20, page * 20),
+      totalPages: Math.ceil(summary.length / 20),
+    };
   }
 }

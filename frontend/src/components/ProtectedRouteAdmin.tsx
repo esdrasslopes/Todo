@@ -2,10 +2,10 @@ import { Navigate } from "react-router-dom";
 import type { JSX } from "react";
 import { useAuthContext } from "../contexts/AuthContext";
 
-export function ProtectedRoute({ children }: { children: JSX.Element }) {
-  const { isAuthenticated } = useAuthContext();
+export function ProtectedRouteAdmin({ children }: { children: JSX.Element }) {
+  const { isAuthenticated, isAdmin } = useAuthContext();
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated || !isAdmin) {
     return <Navigate to="/" replace />;
   }
 

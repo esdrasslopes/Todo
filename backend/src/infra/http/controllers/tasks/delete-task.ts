@@ -21,7 +21,7 @@ export const deleteTask = async (
     });
 
     if (result.isRight()) {
-      return reply.status(201).send({
+      return reply.status(200).send({
         message: "Task successfully deleted",
       });
     } else if (result.value instanceof UnauthorizedError) {

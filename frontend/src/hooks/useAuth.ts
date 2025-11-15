@@ -5,10 +5,11 @@ import type { createUser, UserAuthenticate } from "../types";
 interface UseAuthResponse {
   status: number;
   message?: string;
+  isAdmin?: boolean;
 }
 
 export const useAuth = () => {
-  const { setAuthenticated } = useAuthContext();
+  const { setAuthenticated, setIsAdmin } = useAuthContext();
 
   const authenticateUser = async ({
     email,
@@ -24,11 +25,21 @@ export const useAuth = () => {
         api.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${response.data.token}`;
-        setAuthenticated(true);
       }
+
+      const userRole = await api.get("/users-level");
+
+      if (userRole.data.userLevel.props.role === "ADMIN") {
+        setIsAdmin(true);
+      }
+
+      const admin = userRole.data.userLevel.props.role === "ADMIN";
+
+      setAuthenticated(true);
 
       return {
         status: response.status,
+        isAdmin: admin,
       };
     } catch (error: any) {
       return { status: error.status, message: error.response.data };

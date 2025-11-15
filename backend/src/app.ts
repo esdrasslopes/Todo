@@ -9,6 +9,7 @@ import { usergroupRoutes } from "./infra/http/controllers/groups/routes";
 import { taskRoutes } from "./infra/http/controllers/tasks/routes";
 import { mongoConnection } from "./infra/database/mongo/mongo-connection";
 import cors from "@fastify/cors";
+import { userLevelRoutes } from "./infra/http/controllers/users-level/routes";
 
 mongoConnection();
 
@@ -40,6 +41,10 @@ app.register(usergroupRoutes, {
 
 app.register(taskRoutes, {
   prefix: "/task",
+});
+
+app.register(userLevelRoutes, {
+  prefix: "/users-level",
 });
 
 app.setErrorHandler((error, _, reply) => {

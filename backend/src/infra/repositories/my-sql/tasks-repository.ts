@@ -256,7 +256,7 @@ export class MySqlTasksRepository implements TasksRepository {
 
     const tasks: Task[] = (rows as RowDataPacket[]).map((row) => {
       return Task.create({
-        id: row.id,
+        id: row.task_id,
         title: row.title,
         description: row.description,
         status: row.status,
@@ -284,7 +284,7 @@ export class MySqlTasksRepository implements TasksRepository {
 
     const tasks: Task[] = (rows as RowDataPacket[]).map((row) => {
       return Task.create({
-        id: row.id,
+        id: row.task_id,
         title: row.title,
         description: row.description,
         status: row.status,

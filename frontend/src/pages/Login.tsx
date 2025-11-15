@@ -52,7 +52,12 @@ const Login: React.FC = () => {
 
     if (response.status === 200) {
       showToast("Bem vindo de volta");
-      navigate("/tasks");
+      if (response.isAdmin) {
+        navigate("/tasks/all");
+      } else {
+        navigate("/tasks");
+      }
+
       return;
     }
 

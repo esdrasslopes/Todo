@@ -1,0 +1,164 @@
+/* --- Containers da Página de Histórico --- */
+.user-history-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  overflow-x: hidden;
+}
+
+.user-history-page-container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  color: #f5f5f5;
+  min-height: 100vh;
+}
+
+/* --- Cabeçalho da Página de Histórico --- */
+.user-history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.user-history-header h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #f5f5f5;
+}
+
+/* --- Lista de Usuários --- */
+.user-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.user-history-empty {
+  color: #a0a0a0;
+  text-align: center;
+  padding: 2rem;
+}
+
+/* --- Card de Usuário --- */
+.user-card {
+  background: #1e1e1e; /* Cor do card (um pouco mais clara que o fundo) */
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  border-left: 4px solid #444; /* Borda padrão */
+  transition: border-color 0.3s;
+}
+
+.user-card:hover {
+  border-color: #007aff; /* Destaque no hover */
+}
+
+.user-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+.user-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #f5f5f5;
+}
+
+/* Footer do Card (Contador) */
+.user-card-footer {
+  text-align: left;
+  margin-top: 1.5rem;
+}
+
+.user-task-count {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #a0a0a0;
+}
+
+/* --- Badges de Grupo --- */
+.user-group-badge {
+  padding: 0.3rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  flex-shrink: 0;
+  color: #ffffff;
+}
+
+.user-group-badge.group-admin {
+  background-color: #ef4444; /* Vermelho */
+}
+.user-group-badge.group-manager {
+  background-color: #f59e0b; /* Âmbar */
+}
+.user-group-badge.group-user {
+  background-color: #007aff; /* Azul */
+}
+
+/* --- Paginação (Estilos copiados e renomeados) --- */
+.user-history-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2.5rem;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.user-history-pagination button {
+  background: none;
+  border: none;
+  color: #a0a0a0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.user-history-pagination button:disabled {
+  color: #555;
+  cursor: not-allowed;
+}
+
+.user-history-pagination .page-numbers {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.user-history-pagination .page-numbers button {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.user-history-pagination .page-numbers button:hover {
+  background-color: #2a2a2a;
+}
+
+.user-history-pagination .page-numbers button.active {
+  background-color: #007aff;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+@media (max-width: 600px) {
+  .user-history-page-container {
+    padding: 1.5rem 0.5rem;
+  }
+
+  .user-history-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .user-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+}

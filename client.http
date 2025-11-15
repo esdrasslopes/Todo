@@ -79,10 +79,10 @@ Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
 {
-  "title": "New Task",
-  "description": "Task created via HTTP client",
+  "title": "Token JWT",
+  "description": "Arrumar token requisições para usar token jwt",
   "status": "PENDING",
-  "priority": "HIGH",
+  "priority": "LOW",
   "directedTo": "GRP_20251109193044_502"
 }
 
@@ -92,3 +92,8 @@ POST {{baseUrl}}/user/refresh
 ###
 PATCH {{baseUrl}}/task/TSK_20251114212211_563
 Authorization: Bearer {{authToken}}
+
+###
+GET {{baseUrl}}/users-level
+Authorization: Bearer {{authToken}} 
+

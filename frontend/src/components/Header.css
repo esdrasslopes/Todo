@@ -1,0 +1,71 @@
+.app-header {
+  width: 100%;
+  background-color: #1e1e1e;
+
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.app-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.app-nav a {
+  padding: 1rem 1.25rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #a0a0a0;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.app-nav a:hover {
+  color: #f0f0f0;
+}
+
+.app-nav a.active {
+  color: #f0f0f0;
+  font-weight: 600;
+  border-bottom-color: #007aff;
+}
+
+.create-task-btn {
+  background-color: #007aff;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.create-task-btn:hover {
+  background-color: #0056b3;
+}
+
+@media (max-width: 600px) {
+  .app-nav {
+    justify-content: space-around;
+    gap: 0;
+  }
+  .app-nav a {
+    padding: 0.8rem 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .create-task-btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+    margin-left: 0.5rem;
+  }
+}

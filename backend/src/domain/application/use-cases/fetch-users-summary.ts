@@ -7,11 +7,12 @@ import type { UserSummary } from "@/domain/entities/value-objects/user-summary";
 
 interface FetchUsersSummuryUseCaseRequest {
   requesterId: string;
+  page: number;
 }
 
 type FetchUsersSummuryUseCaseResponse = Either<
   UserAlreadyExistsError | ResourceNotFoundError | UnauthorizedError,
-  { summary: UserSummary[] }
+  { summary: UserSummary[]; totalPages: number }
 >;
 
 export class FetchUsersSummuryUseCase {
@@ -19,6 +20,7 @@ export class FetchUsersSummuryUseCase {
 
   async execute({
     requesterId,
+    page,
   }: FetchUsersSummuryUseCaseRequest): Promise<FetchUsersSummuryUseCaseResponse> {
     const permission = await this.usersRepository.hasPermission(requesterId);
 
@@ -26,10 +28,11 @@ export class FetchUsersSummuryUseCase {
       return left(new UnauthorizedError());
     }
 
-    const summary = await this.usersRepository.fetchUsersSummary();
+    const summary = await this.usersRepository.fetchUsersSummary({ page });
 
     return right({
-      summary,
+      summary: summary.summury,
+      totalPages: summary.totalPages,
     });
   }
 }

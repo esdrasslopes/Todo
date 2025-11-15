@@ -31,3 +31,27 @@ export interface Task {
     completedBy?: string | null;
   };
 }
+
+export interface CreateTaskForm {
+  title: string;
+  description: string;
+  status: "PENDING" | "COMPLETED";
+  priority: "HIGH" | "LOW";
+  directedTo: string;
+}
+
+export interface EditTaskForm {
+  title: string;
+  description?: string | null;
+  status: "PENDING" | "COMPLETED";
+  priority: "HIGH" | "LOW";
+}
+
+export interface UsersSummary {
+  props: {
+    id: string;
+    userName: string;
+    groupName: "ADMIN" | "MANAGER" | "USER";
+    finishedTasks: number;
+  };
+}

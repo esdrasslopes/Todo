@@ -1,5 +1,5 @@
 import { FetchUsersSummuryUseCase } from "@/domain/application/use-cases/fetch-users-summary";
-import { MySqlUsersLevelRepository } from "@/infra/repositories/my-sql/users-level-repositoty";
+import { MySqlUsersLevelRepository } from "@/infra/repositories/my-sql/users-level-repository";
 import { MySqlUsersRepository } from "@/infra/repositories/my-sql/users-repository";
 
 export const makeUsersSummury = () => {
